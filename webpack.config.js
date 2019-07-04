@@ -8,7 +8,7 @@ module.exports = {
   entry: './src/standalone.js',
   output: {
     path: path.join(__dirname, 'standalone'),
-    filename: 'consent-manager.js',
+    filename: `consent-manager.${pkg.version}.js`,
     library: 'consentManager'
   },
   resolve: {
@@ -42,9 +42,10 @@ module.exports = {
     new webpack.BannerPlugin(
       `
 Consent Manager v${pkg.version}
-https://github.com/segmentio/consent-manager
+https://github.com/healthbridgeltd/consent-manager
 Released under the MIT license
 Copyright © 2018, Segment.io, Inc
+Copyright © 2019, Health Bridge Limited
     `.trim()
     )
   ]
