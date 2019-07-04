@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ConsentManagerBuilder from '../consent-manager-builder'
 import Container from './container'
 import {ADVERTISING_CATEGORIES, FUNCTIONAL_CATEGORIES} from './categories'
+import defaultMessages from './default-messages'
 
 const initialPreferences = {
   marketingAndAnalytics: null,
@@ -18,6 +19,7 @@ export default class ConsentManager extends PureComponent {
     otherWriteKeys: PropTypes.arrayOf(PropTypes.string),
     shouldRequireConsent: PropTypes.func,
     implyConsentOnInteraction: PropTypes.bool,
+    implyConsentType: PropTypes.oneOf(['all', 'links']),
     cookieDomain: PropTypes.string,
     bannerContent: PropTypes.node.isRequired,
     bannerSubContent: PropTypes.string,
@@ -27,20 +29,35 @@ export default class ConsentManager extends PureComponent {
     preferencesDialogContent: PropTypes.node.isRequired,
     onError: PropTypes.func,
     cancelDialogTitle: PropTypes.node,
-    cancelDialogContent: PropTypes.node.isRequired
+    cancelDialogContent: PropTypes.node.isRequired,
+    translationMessages: PropTypes.object
   }
 
   static defaultProps = {
     otherWriteKeys: [],
     shouldRequireConsent: () => true,
     implyConsentOnInteraction: true,
+    implyConsentType: 'all',
     onError: undefined,
     cookieDomain: undefined,
     bannerTextColor: '#fff',
     bannerSubContent: 'You can change your preferences at any time.',
     bannerBackgroundColor: '#1f4160',
     preferencesDialogTitle: 'Website Data Collection Preferences',
-    cancelDialogTitle: 'Are you sure you want to cancel?'
+    cancelDialogTitle: 'Are you sure you want to cancel?',
+    translationMessages: {}
+  }
+
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      translationMessages: Object.assign(
+        {},
+        defaultMessages.translationMessages,
+        this.props.translationMessages
+      )
+    }
   }
 
   render() {
@@ -49,6 +66,7 @@ export default class ConsentManager extends PureComponent {
       otherWriteKeys,
       shouldRequireConsent,
       implyConsentOnInteraction,
+      implyConsentType,
       cookieDomain,
       bannerContent,
       bannerSubContent,
@@ -75,6 +93,7 @@ export default class ConsentManager extends PureComponent {
           destinations,
           newDestinations,
           preferences,
+          isBannerVisible,
           isConsentRequired,
           setPreferences,
           resetPreferences,
@@ -84,11 +103,13 @@ export default class ConsentManager extends PureComponent {
             destinations={destinations}
             newDestinations={newDestinations}
             preferences={preferences}
+            isBannerVisible={isBannerVisible}
             isConsentRequired={isConsentRequired}
             setPreferences={setPreferences}
             resetPreferences={resetPreferences}
             saveConsent={saveConsent}
             implyConsentOnInteraction={implyConsentOnInteraction}
+            implyConsentType={implyConsentType}
             bannerContent={bannerContent}
             bannerSubContent={bannerSubContent}
             bannerTextColor={bannerTextColor}
@@ -97,10 +118,15 @@ export default class ConsentManager extends PureComponent {
             preferencesDialogContent={preferencesDialogContent}
             cancelDialogTitle={cancelDialogTitle}
             cancelDialogContent={cancelDialogContent}
+            translate={this.translate}
           />
         )}
       </ConsentManagerBuilder>
     )
+  }
+
+  translate = key => {
+    return this.state.translationMessages[key]
   }
 
   handleMapCustomPreferences = ({destinations, preferences}) => {

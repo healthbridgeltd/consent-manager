@@ -22,8 +22,10 @@ export default class Container extends PureComponent {
     destinations: PropTypes.arrayOf(PropTypes.object).isRequired,
     newDestinations: PropTypes.arrayOf(PropTypes.object).isRequired,
     preferences: PropTypes.object.isRequired,
+    isBannerVisible: PropTypes.bool.isRequired,
     isConsentRequired: PropTypes.bool.isRequired,
     implyConsentOnInteraction: PropTypes.bool.isRequired,
+    implyConsentType: PropTypes.string.isRequired,
     bannerContent: PropTypes.node.isRequired,
     bannerSubContent: PropTypes.string.isRequired,
     bannerTextColor: PropTypes.string.isRequired,
@@ -31,7 +33,8 @@ export default class Container extends PureComponent {
     preferencesDialogTitle: PropTypes.node.isRequired,
     preferencesDialogContent: PropTypes.node.isRequired,
     cancelDialogTitle: PropTypes.node.isRequired,
-    cancelDialogContent: PropTypes.node.isRequired
+    cancelDialogContent: PropTypes.node.isRequired,
+    translate: PropTypes.func.isRequired
   }
 
   state = {
@@ -44,6 +47,7 @@ export default class Container extends PureComponent {
       destinations,
       newDestinations,
       preferences,
+      isBannerVisible,
       isConsentRequired,
       bannerContent,
       bannerSubContent,
@@ -52,7 +56,8 @@ export default class Container extends PureComponent {
       preferencesDialogTitle,
       preferencesDialogContent,
       cancelDialogTitle,
-      cancelDialogContent
+      cancelDialogContent,
+      translate
     } = this.props
     const {isDialogOpen, isCancelling} = this.state
     const marketingDestinations = []
@@ -73,18 +78,18 @@ export default class Container extends PureComponent {
     // TODO: add state for banner so it doesn't disappear on implicit consent (which is annoying UX)
     return (
       <div>
-        {isConsentRequired &&
-          newDestinations.length > 0 && (
-            <Banner
-              innerRef={this.handleBannerRef}
-              onAccept={this.handleBannerAccept}
-              onChangePreferences={this.openDialog}
-              content={bannerContent}
-              subContent={bannerSubContent}
-              textColor={bannerTextColor}
-              backgroundColor={bannerBackgroundColor}
-            />
-          )}
+        {((isConsentRequired && newDestinations.length > 0) ||
+          isBannerVisible) && (
+          <Banner
+            innerRef={this.handleBannerRef}
+            onAccept={this.handleBannerAccept}
+            onChangePreferences={this.openDialog}
+            content={bannerContent}
+            subContent={bannerSubContent}
+            textColor={bannerTextColor}
+            backgroundColor={bannerBackgroundColor}
+          />
+        )}
         {isDialogOpen && (
           <PreferenceDialog
             innerRef={this.handlePreferenceDialogRef}
@@ -99,6 +104,7 @@ export default class Container extends PureComponent {
             functional={preferences.functional}
             title={preferencesDialogTitle}
             content={preferencesDialogContent}
+            translate={translate}
           />
         )}
         {isCancelling && (
@@ -108,6 +114,7 @@ export default class Container extends PureComponent {
             onConfirm={this.handleCancelConfirm}
             title={cancelDialogTitle}
             content={cancelDialogContent}
+            translate={translate}
           />
         )}
       </div>
@@ -156,7 +163,7 @@ export default class Container extends PureComponent {
   handleBannerAccept = () => {
     const {saveConsent} = this.props
 
-    saveConsent()
+    saveConsent(undefined, false, false)
   }
 
   handleBodyClick = e => {
@@ -164,7 +171,8 @@ export default class Container extends PureComponent {
       newDestinations,
       saveConsent,
       isConsentRequired,
-      implyConsentOnInteraction
+      implyConsentOnInteraction,
+      implyConsentType
     } = this.props
 
     // Do nothing if no new implicit consent needs to be saved
@@ -173,6 +181,19 @@ export default class Container extends PureComponent {
       !implyConsentOnInteraction ||
       newDestinations.length === 0
     ) {
+      return
+    }
+
+    // We imply consent when user clicks on any link inside or
+    // outside of consent-manager
+    if (implyConsentType === 'links') {
+      const link = e.target.closest('a')
+
+      if (link === null || link.getAttribute('href') === null) {
+        return
+      }
+
+      saveConsent(undefined, false, true)
       return
     }
 
@@ -185,7 +206,7 @@ export default class Container extends PureComponent {
       return
     }
 
-    saveConsent(undefined, false)
+    saveConsent(undefined, false, true)
   }
 
   handleCategoryChange = (category, value) => {
@@ -202,7 +223,7 @@ export default class Container extends PureComponent {
     this.setState({
       isDialogOpen: false
     })
-    saveConsent()
+    saveConsent(undefined, false, false)
   }
 
   handleCancel = () => {
