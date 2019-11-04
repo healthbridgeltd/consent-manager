@@ -1,5 +1,5 @@
 {
-  "name": "@segment/consent-manager",
+  "name": "@healthbridgeltd/consent-manager",
   "version": "1.5.4",
   "description": "Drop-in consent management plugin for analytics.js",
   "keywords": [
