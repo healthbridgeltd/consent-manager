@@ -86,7 +86,7 @@ export default class Banner extends PureComponent {
         <Content>
           <P>{content}</P>
         </Content>
-        <div className="ConsentCtaContainer">
+        <div className="ConsentButtonContainer">
           <CloseButton
             className="Button Button--primary"
             type="button"
