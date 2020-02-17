@@ -167,6 +167,10 @@ export default class Container extends PureComponent {
     saveConsent(undefined, false, false)
   }
 
+  noImpliedConsentAnchorTapped = e => {
+    return e.target.tagName === 'A' && e.target.dataset.implyConsent === 'false'
+  }
+
   handleBodyClick = e => {
     const {
       newDestinations,
@@ -180,7 +184,8 @@ export default class Container extends PureComponent {
     if (
       !isConsentRequired ||
       !implyConsentOnInteraction ||
-      newDestinations.length === 0
+      newDestinations.length === 0 ||
+      this.noImpliedConsentAnchorTapped(e)
     ) {
       return
     }
