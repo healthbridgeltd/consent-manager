@@ -167,8 +167,12 @@ export default class Container extends PureComponent {
     saveConsent(undefined, false, false)
   }
 
+  /**
+   * @param e
+   * @returns {boolean}
+   */
   noImpliedConsentAnchorTapped = e => {
-    return e.target.tagName === 'A' && e.target.dataset.implyConsent === 'false'
+    return Boolean(e.target.closest('[data-imply-consent="false"]'))
   }
 
   handleBodyClick = e => {
