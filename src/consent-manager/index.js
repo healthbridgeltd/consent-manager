@@ -21,6 +21,7 @@ export default class ConsentManager extends PureComponent {
     implyConsentOnInteraction: PropTypes.bool,
     implyConsentType: PropTypes.oneOf(['all', 'links']),
     cookieDomain: PropTypes.string,
+    segmentDomain: PropTypes.string,
     bannerContent: PropTypes.node.isRequired,
     bannerSubContent: PropTypes.string,
     bannerTextColor: PropTypes.string,
@@ -40,6 +41,7 @@ export default class ConsentManager extends PureComponent {
     implyConsentType: 'all',
     onError: undefined,
     cookieDomain: undefined,
+    segmentDomain: 'cdn.segment.com',
     bannerTextColor: '#fff',
     bannerSubContent: 'You can change your preferences at any time.',
     bannerBackgroundColor: '#1f4160',
@@ -68,6 +70,7 @@ export default class ConsentManager extends PureComponent {
       implyConsentOnInteraction,
       implyConsentType,
       cookieDomain,
+      segmentDomain,
       bannerContent,
       bannerSubContent,
       bannerTextColor,
@@ -86,6 +89,7 @@ export default class ConsentManager extends PureComponent {
         otherWriteKeys={otherWriteKeys}
         shouldRequireConsent={shouldRequireConsent}
         cookieDomain={cookieDomain}
+        segmentDomain={segmentDomain}
         initialPreferences={initialPreferences}
         mapCustomPreferences={this.handleMapCustomPreferences}
       >
