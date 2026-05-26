@@ -30,7 +30,6 @@ if (window.consentManagerConfig) {
   props.implyConsentOnInteraction = dataset.implyconsentoninteraction
   props.implyConsentType = dataset.implyconsenttype
   props.cookieDomain = dataset.cookiedomain
-  props.segmentDomain = dataset.segmentdomain
   props.bannerContent = dataset.bannercontent
   props.bannerTextColor = dataset.bannertextcolor
   props.bannerBackgroundColor = dataset.bannerbackgroundcolor

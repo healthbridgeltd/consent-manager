@@ -187,13 +187,6 @@ Default: the [top most domain][top-domain] and all sub domains
 
 The domain the `tracking-preferences` cookie should be scoped to.
 
-##### segmentDomain
-
-Type: `string`<br>
-Default: `cdn.segment.com`
-
-The Segment CDN host used to fetch destination integrations (e.g. a custom Segment proxy hostname).
-
 ##### bannerContent
 
 Type: `PropTypes.node`
@@ -343,13 +336,6 @@ Type: `string`<br>
 Default: the [top most domain][top-domain] and all sub domains
 
 The domain the `tracking-preferences` cookie should be scoped to.
-
-##### segmentDomain
-
-Type: `string`<br>
-Default: `cdn.segment.com`
-
-The Segment CDN host used to fetch destination integrations (e.g. a custom Segment proxy hostname).
 
 #### Render Props
 

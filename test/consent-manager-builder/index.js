@@ -13,7 +13,7 @@ test.beforeEach(() => {
 test.todo('doesn՚t load analytics.js when consent is required')
 
 test.cb.serial('provides a list of enabled destinations', t => {
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
@@ -61,7 +61,7 @@ test.cb.serial('provides a list of newly added destinations', t => {
     'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
   global.window.analytics = {load() {}}
 
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
@@ -96,7 +96,7 @@ test.cb.serial('loads analytics.js with the user՚s preferences', t => {
   global.window.analytics = {load: ajsLoad}
   const writeKey = '123'
 
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
@@ -128,7 +128,7 @@ test.cb.serial('provides an object containing the WIP preferences', t => {
     'tracking-preferences={%22version%22:1%2C%22destinations%22:{%22Amplitude%22:true}}'
   global.window.analytics = {load() {}}
 
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
