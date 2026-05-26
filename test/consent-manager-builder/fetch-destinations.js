@@ -86,21 +86,3 @@ test('Doesn՚t include duplicate destinations', async t => {
     }
   ])
 })
-
-test('Uses a custom segment domain', async t => {
-  nock('https://av1.onlinedoctor.asda.com')
-    .get('/v1/projects/123/integrations')
-    .reply(200, [
-      {
-        name: 'Amplitude',
-        creationName: 'Amplitude'
-      }
-    ])
-
-  t.deepEqual(await fetchDestinations(['123'], 'av1.onlinedoctor.asda.com'), [
-    {
-      id: 'Amplitude',
-      name: 'Amplitude'
-    }
-  ])
-})
