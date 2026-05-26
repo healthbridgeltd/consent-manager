@@ -3,7 +3,7 @@ import nock from 'nock'
 import fetchDestinations from '../../src/consent-manager-builder/fetch-destinations'
 
 test('Returns destinations for a writekey', async t => {
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
@@ -29,7 +29,7 @@ test('Returns destinations for a writekey', async t => {
 })
 
 test('Renames creationName to id', async t => {
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
@@ -47,7 +47,7 @@ test('Renames creationName to id', async t => {
 })
 
 test('Doesn՚t include duplicate destinations', async t => {
-  nock('https://cdn.segment.com')
+  nock('https://av1.onlinedoctor.asda.com')
     .get('/v1/projects/123/integrations')
     .reply(200, [
       {
