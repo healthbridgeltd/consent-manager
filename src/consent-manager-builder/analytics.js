@@ -5,7 +5,10 @@ export default function conditionallyLoadAnalytics({
   isConsentRequired,
   shouldReload = true
 }) {
-  const integrations = {All: false, 'Segment.io': true}
+  const integrations = {
+    All: false,
+    'Segment.io': {apiHost: 'av1-ev.onlinedoctor.asda.com/v1'}
+  }
   let isAnythingEnabled = false
 
   if (!destinationPreferences) {
