@@ -3,7 +3,7 @@ import {flatten, sortedUniqBy, sortBy} from 'lodash'
 
 async function fetchDestinationForWriteKey(writeKey) {
   const res = await fetch(
-    `https://cdn.segment.com/v1/projects/${writeKey}/integrations`
+    `https://av1.onlinedoctor.asda.com/v1/projects/${writeKey}/integrations`
   )
 
   if (!res.ok) {
